@@ -34,7 +34,10 @@ class KotrenettelinPresenter(private val imageBundleService: ImageBundleService,
                 .getImageBundle(imageBundleAddress)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ imageBundle -> imagePaths.addAll(imageBundle.images) },
+                .subscribe({ imageBundle ->
+                    imagePaths.addAll(imageBundle.images)
+                    view.bindPaginationData(currentImageIndex, imagePaths.size)
+                },
                         { throwable -> view.onLoadImageBundleFailure(throwable) },
                         { view.onLoadImageBundleSuccess() })
     }

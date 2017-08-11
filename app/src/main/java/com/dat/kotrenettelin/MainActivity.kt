@@ -11,11 +11,13 @@ import android.view.MenuItem
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.widget.EditText
-import android.widget.Toast
+import butterknife.ButterKnife
+import butterknife.OnClick
 import com.dat.kotrenettelin.api.ImageBundleService
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity(), KotrenettelinView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        ButterKnife.bind(this)
         presenter = KotrenettelinPresenter(ImageBundleService(), this)
         if (savedInstanceState != null) {
             presenter.restoreData(savedInstanceState)
@@ -75,7 +78,7 @@ class MainActivity : AppCompatActivity(), KotrenettelinView {
                                 bundleAddress!!.setText("")
                             })
                     .build()
-            loadImageBundleDialog!!.setTitle(getString(R.string.load_image_bundle_dialog_title))
+            loadImageBundleDialog!!.setTitle(R.string.load_image_bundle_dialog_title)
         }
         loadImageBundleDialog!!.show()
     }
@@ -86,19 +89,19 @@ class MainActivity : AppCompatActivity(), KotrenettelinView {
     }
 
     override fun onLoadingImageBundle() {
-        Toast.makeText(this, R.string.loading_image_bundle, Toast.LENGTH_SHORT).show()
+        toast(R.string.loading_image_bundle)
     }
 
     override fun onLoadImageBundleSuccess() {
-        Toast.makeText(this, R.string.loaded_image_bundle, Toast.LENGTH_SHORT).show()
+        toast(R.string.loaded_image_bundle)
     }
 
     override fun onLoadImageBundleFailure(e: Throwable) {
-        Toast.makeText(this, e.localizedMessage, Toast.LENGTH_LONG).show()
+        toast(e.localizedMessage)
     }
 
     override fun bindImageData(imagePath: String?) {
-        if (imagePath == null || imagePath.isEmpty()) {
+        if (imagePath!!.isEmpty()) {
             return
         }
         val playAnimation = AtomicBoolean(true)
@@ -128,4 +131,8 @@ class MainActivity : AppCompatActivity(), KotrenettelinView {
         pageNumber.text = String.format(Locale.getDefault(), getString(R.string.page_number), currentImageIndex + 1, size)
     }
 
+    @OnClick(R.id.button)
+    fun clicked() {
+        toast("clicked")
+    }
 }

@@ -19,4 +19,11 @@
         android:background="@drawable/bg_page_number"
         android:padding="16dp"
         android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:text="button" />
 </FrameLayout>
